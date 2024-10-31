@@ -1,0 +1,444 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище Session2Model" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="BookLoans">
+          <Key>
+            <PropertyRef Name="IDLoan" />
+          </Key>
+          <Property Name="IDLoan" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IDBook" Type="int" Nullable="false" />
+          <Property Name="IDReader" Type="int" Nullable="false" />
+          <Property Name="LoanDate" Type="date" Nullable="false" />
+          <Property Name="ReturnDate" Type="date" />
+        </EntityType>
+        <EntityType Name="Books">
+          <Key>
+            <PropertyRef Name="IDBook" />
+          </Key>
+          <Property Name="IDBook" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="255" />
+          <Property Name="Authors" Type="text" />
+          <Property Name="Publisher" Type="nvarchar" MaxLength="100" />
+          <Property Name="PublicationYear" Type="int" />
+          <Property Name="Cipher" Type="nvarchar" MaxLength="50" />
+          <Property Name="AvailableCopies" Type="int" />
+          <Property Name="IDRoom" Type="int" />
+          <Property Name="LastBorrowedDate" Type="date" />
+        </EntityType>
+        <EntityType Name="BookTransfers">
+          <Key>
+            <PropertyRef Name="IDTransfer" />
+          </Key>
+          <Property Name="IDTransfer" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IDBook" Type="int" Nullable="false" />
+          <Property Name="OldCipher" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="NewCipher" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="TransferDate" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ReaderRegistrations">
+          <Key>
+            <PropertyRef Name="IDRegistration" />
+          </Key>
+          <Property Name="IDRegistration" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IDReader" Type="int" Nullable="false" />
+          <Property Name="OldTicketNumber" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="NewTicketNumber" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="RegistrationDate" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Readers">
+          <Key>
+            <PropertyRef Name="IDReader" />
+          </Key>
+          <Property Name="IDReader" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TicketNumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="Surname" Type="nvarchar" MaxLength="100" />
+          <Property Name="PassportNumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="BirthDay" Type="date" />
+          <Property Name="Address" Type="nvarchar" MaxLength="255" />
+          <Property Name="PhoneNumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="EducationLevel" Type="nvarchar" MaxLength="50" />
+          <Property Name="AcademicDegree" Type="bit" />
+          <Property Name="IDReadingRoom" Type="int" />
+          <Property Name="RegistrationDate" Type="date" />
+          <Property Name="LastRegistrationUpdate" Type="date" />
+        </EntityType>
+        <EntityType Name="ReadingRooms">
+          <Key>
+            <PropertyRef Name="ReadingRoom" />
+          </Key>
+          <Property Name="ReadingRoom" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoomNumber" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Capacity" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_BookLoans_Books">
+          <End Role="Books" Type="Self.Books" Multiplicity="1" />
+          <End Role="BookLoans" Type="Self.BookLoans" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Books">
+              <PropertyRef Name="IDBook" />
+            </Principal>
+            <Dependent Role="BookLoans">
+              <PropertyRef Name="IDBook" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BookLoans_Readers">
+          <End Role="Readers" Type="Self.Readers" Multiplicity="1" />
+          <End Role="BookLoans" Type="Self.BookLoans" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Readers">
+              <PropertyRef Name="IDReader" />
+            </Principal>
+            <Dependent Role="BookLoans">
+              <PropertyRef Name="IDReader" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BookTransfers_Books">
+          <End Role="Books" Type="Self.Books" Multiplicity="1" />
+          <End Role="BookTransfers" Type="Self.BookTransfers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Books">
+              <PropertyRef Name="IDBook" />
+            </Principal>
+            <Dependent Role="BookTransfers">
+              <PropertyRef Name="IDBook" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ReaderRegistrations_Readers">
+          <End Role="Readers" Type="Self.Readers" Multiplicity="1" />
+          <End Role="ReaderRegistrations" Type="Self.ReaderRegistrations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Readers">
+              <PropertyRef Name="IDReader" />
+            </Principal>
+            <Dependent Role="ReaderRegistrations">
+              <PropertyRef Name="IDReader" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Readers_ReadingRooms">
+          <End Role="ReadingRooms" Type="Self.ReadingRooms" Multiplicity="0..1" />
+          <End Role="Readers" Type="Self.Readers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ReadingRooms">
+              <PropertyRef Name="ReadingRoom" />
+            </Principal>
+            <Dependent Role="Readers">
+              <PropertyRef Name="IDReadingRoom" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище Session2ModelContainer">
+          <EntitySet Name="BookLoans" EntityType="Self.BookLoans" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Books" EntityType="Self.Books" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BookTransfers" EntityType="Self.BookTransfers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ReaderRegistrations" EntityType="Self.ReaderRegistrations" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Readers" EntityType="Self.Readers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ReadingRooms" EntityType="Self.ReadingRooms" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_BookLoans_Books" Association="Self.FK_BookLoans_Books">
+            <End Role="Books" EntitySet="Books" />
+            <End Role="BookLoans" EntitySet="BookLoans" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BookLoans_Readers" Association="Self.FK_BookLoans_Readers">
+            <End Role="Readers" EntitySet="Readers" />
+            <End Role="BookLoans" EntitySet="BookLoans" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BookTransfers_Books" Association="Self.FK_BookTransfers_Books">
+            <End Role="Books" EntitySet="Books" />
+            <End Role="BookTransfers" EntitySet="BookTransfers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ReaderRegistrations_Readers" Association="Self.FK_ReaderRegistrations_Readers">
+            <End Role="Readers" EntitySet="Readers" />
+            <End Role="ReaderRegistrations" EntitySet="ReaderRegistrations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Readers_ReadingRooms" Association="Self.FK_Readers_ReadingRooms">
+            <End Role="ReadingRooms" EntitySet="ReadingRooms" />
+            <End Role="Readers" EntitySet="Readers" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Session2Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="BookLoans">
+          <Key>
+            <PropertyRef Name="IDLoan" />
+          </Key>
+          <Property Name="IDLoan" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IDBook" Type="Int32" Nullable="false" />
+          <Property Name="IDReader" Type="Int32" Nullable="false" />
+          <Property Name="LoanDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="ReturnDate" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Books" Relationship="Self.FK_BookLoans_Books" FromRole="BookLoans" ToRole="Books" />
+          <NavigationProperty Name="Readers" Relationship="Self.FK_BookLoans_Readers" FromRole="BookLoans" ToRole="Readers" />
+        </EntityType>
+        <EntityType Name="Books">
+          <Key>
+            <PropertyRef Name="IDBook" />
+          </Key>
+          <Property Name="IDBook" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Authors" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Publisher" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="PublicationYear" Type="Int32" />
+          <Property Name="Cipher" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AvailableCopies" Type="Int32" />
+          <Property Name="IDRoom" Type="Int32" />
+          <Property Name="LastBorrowedDate" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="BookLoans" Relationship="Self.FK_BookLoans_Books" FromRole="Books" ToRole="BookLoans" />
+          <NavigationProperty Name="BookTransfers" Relationship="Self.FK_BookTransfers_Books" FromRole="Books" ToRole="BookTransfers" />
+        </EntityType>
+        <EntityType Name="BookTransfers">
+          <Key>
+            <PropertyRef Name="IDTransfer" />
+          </Key>
+          <Property Name="IDTransfer" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IDBook" Type="Int32" Nullable="false" />
+          <Property Name="OldCipher" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="NewCipher" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TransferDate" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Books" Relationship="Self.FK_BookTransfers_Books" FromRole="BookTransfers" ToRole="Books" />
+        </EntityType>
+        <EntityType Name="ReaderRegistrations">
+          <Key>
+            <PropertyRef Name="IDRegistration" />
+          </Key>
+          <Property Name="IDRegistration" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IDReader" Type="Int32" Nullable="false" />
+          <Property Name="OldTicketNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="NewTicketNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="RegistrationDate" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Readers" Relationship="Self.FK_ReaderRegistrations_Readers" FromRole="ReaderRegistrations" ToRole="Readers" />
+        </EntityType>
+        <EntityType Name="Readers">
+          <Key>
+            <PropertyRef Name="IDReader" />
+          </Key>
+          <Property Name="IDReader" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TicketNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Surname" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="PassportNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BirthDay" Type="DateTime" Precision="0" />
+          <Property Name="Address" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EducationLevel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AcademicDegree" Type="Boolean" />
+          <Property Name="IDReadingRoom" Type="Int32" />
+          <Property Name="RegistrationDate" Type="DateTime" Precision="0" />
+          <Property Name="LastRegistrationUpdate" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="BookLoans" Relationship="Self.FK_BookLoans_Readers" FromRole="Readers" ToRole="BookLoans" />
+          <NavigationProperty Name="ReaderRegistrations" Relationship="Self.FK_ReaderRegistrations_Readers" FromRole="Readers" ToRole="ReaderRegistrations" />
+          <NavigationProperty Name="ReadingRooms" Relationship="Self.FK_Readers_ReadingRooms" FromRole="Readers" ToRole="ReadingRooms" />
+        </EntityType>
+        <EntityType Name="ReadingRooms">
+          <Key>
+            <PropertyRef Name="ReadingRoom" />
+          </Key>
+          <Property Name="ReadingRoom" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoomNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Capacity" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Readers" Relationship="Self.FK_Readers_ReadingRooms" FromRole="ReadingRooms" ToRole="Readers" />
+        </EntityType>
+        <Association Name="FK_BookLoans_Books">
+          <End Role="Books" Type="Self.Books" Multiplicity="1" />
+          <End Role="BookLoans" Type="Self.BookLoans" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Books">
+              <PropertyRef Name="IDBook" />
+            </Principal>
+            <Dependent Role="BookLoans">
+              <PropertyRef Name="IDBook" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BookLoans_Readers">
+          <End Role="Readers" Type="Self.Readers" Multiplicity="1" />
+          <End Role="BookLoans" Type="Self.BookLoans" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Readers">
+              <PropertyRef Name="IDReader" />
+            </Principal>
+            <Dependent Role="BookLoans">
+              <PropertyRef Name="IDReader" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BookTransfers_Books">
+          <End Role="Books" Type="Self.Books" Multiplicity="1" />
+          <End Role="BookTransfers" Type="Self.BookTransfers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Books">
+              <PropertyRef Name="IDBook" />
+            </Principal>
+            <Dependent Role="BookTransfers">
+              <PropertyRef Name="IDBook" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ReaderRegistrations_Readers">
+          <End Role="Readers" Type="Self.Readers" Multiplicity="1" />
+          <End Role="ReaderRegistrations" Type="Self.ReaderRegistrations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Readers">
+              <PropertyRef Name="IDReader" />
+            </Principal>
+            <Dependent Role="ReaderRegistrations">
+              <PropertyRef Name="IDReader" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Readers_ReadingRooms">
+          <End Role="ReadingRooms" Type="Self.ReadingRooms" Multiplicity="0..1" />
+          <End Role="Readers" Type="Self.Readers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ReadingRooms">
+              <PropertyRef Name="ReadingRoom" />
+            </Principal>
+            <Dependent Role="Readers">
+              <PropertyRef Name="IDReadingRoom" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Session2Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="BookLoans" EntityType="Self.BookLoans" />
+          <EntitySet Name="Books" EntityType="Self.Books" />
+          <EntitySet Name="BookTransfers" EntityType="Self.BookTransfers" />
+          <EntitySet Name="ReaderRegistrations" EntityType="Self.ReaderRegistrations" />
+          <EntitySet Name="Readers" EntityType="Self.Readers" />
+          <EntitySet Name="ReadingRooms" EntityType="Self.ReadingRooms" />
+          <AssociationSet Name="FK_BookLoans_Books" Association="Self.FK_BookLoans_Books">
+            <End Role="Books" EntitySet="Books" />
+            <End Role="BookLoans" EntitySet="BookLoans" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BookLoans_Readers" Association="Self.FK_BookLoans_Readers">
+            <End Role="Readers" EntitySet="Readers" />
+            <End Role="BookLoans" EntitySet="BookLoans" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BookTransfers_Books" Association="Self.FK_BookTransfers_Books">
+            <End Role="Books" EntitySet="Books" />
+            <End Role="BookTransfers" EntitySet="BookTransfers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ReaderRegistrations_Readers" Association="Self.FK_ReaderRegistrations_Readers">
+            <End Role="Readers" EntitySet="Readers" />
+            <End Role="ReaderRegistrations" EntitySet="ReaderRegistrations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Readers_ReadingRooms" Association="Self.FK_Readers_ReadingRooms">
+            <End Role="ReadingRooms" EntitySet="ReadingRooms" />
+            <End Role="Readers" EntitySet="Readers" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище Session2ModelContainer" CdmEntityContainer="Session2Entities">
+          <EntitySetMapping Name="BookLoans">
+            <EntityTypeMapping TypeName="Session2Model.BookLoans">
+              <MappingFragment StoreEntitySet="BookLoans">
+                <ScalarProperty Name="IDLoan" ColumnName="IDLoan" />
+                <ScalarProperty Name="IDBook" ColumnName="IDBook" />
+                <ScalarProperty Name="IDReader" ColumnName="IDReader" />
+                <ScalarProperty Name="LoanDate" ColumnName="LoanDate" />
+                <ScalarProperty Name="ReturnDate" ColumnName="ReturnDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Books">
+            <EntityTypeMapping TypeName="Session2Model.Books">
+              <MappingFragment StoreEntitySet="Books">
+                <ScalarProperty Name="IDBook" ColumnName="IDBook" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Authors" ColumnName="Authors" />
+                <ScalarProperty Name="Publisher" ColumnName="Publisher" />
+                <ScalarProperty Name="PublicationYear" ColumnName="PublicationYear" />
+                <ScalarProperty Name="Cipher" ColumnName="Cipher" />
+                <ScalarProperty Name="AvailableCopies" ColumnName="AvailableCopies" />
+                <ScalarProperty Name="IDRoom" ColumnName="IDRoom" />
+                <ScalarProperty Name="LastBorrowedDate" ColumnName="LastBorrowedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BookTransfers">
+            <EntityTypeMapping TypeName="Session2Model.BookTransfers">
+              <MappingFragment StoreEntitySet="BookTransfers">
+                <ScalarProperty Name="IDTransfer" ColumnName="IDTransfer" />
+                <ScalarProperty Name="IDBook" ColumnName="IDBook" />
+                <ScalarProperty Name="OldCipher" ColumnName="OldCipher" />
+                <ScalarProperty Name="NewCipher" ColumnName="NewCipher" />
+                <ScalarProperty Name="TransferDate" ColumnName="TransferDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ReaderRegistrations">
+            <EntityTypeMapping TypeName="Session2Model.ReaderRegistrations">
+              <MappingFragment StoreEntitySet="ReaderRegistrations">
+                <ScalarProperty Name="IDRegistration" ColumnName="IDRegistration" />
+                <ScalarProperty Name="IDReader" ColumnName="IDReader" />
+                <ScalarProperty Name="OldTicketNumber" ColumnName="OldTicketNumber" />
+                <ScalarProperty Name="NewTicketNumber" ColumnName="NewTicketNumber" />
+                <ScalarProperty Name="RegistrationDate" ColumnName="RegistrationDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Readers">
+            <EntityTypeMapping TypeName="Session2Model.Readers">
+              <MappingFragment StoreEntitySet="Readers">
+                <ScalarProperty Name="IDReader" ColumnName="IDReader" />
+                <ScalarProperty Name="TicketNumber" ColumnName="TicketNumber" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="PassportNumber" ColumnName="PassportNumber" />
+                <ScalarProperty Name="BirthDay" ColumnName="BirthDay" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="EducationLevel" ColumnName="EducationLevel" />
+                <ScalarProperty Name="AcademicDegree" ColumnName="AcademicDegree" />
+                <ScalarProperty Name="IDReadingRoom" ColumnName="IDReadingRoom" />
+                <ScalarProperty Name="RegistrationDate" ColumnName="RegistrationDate" />
+                <ScalarProperty Name="LastRegistrationUpdate" ColumnName="LastRegistrationUpdate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ReadingRooms">
+            <EntityTypeMapping TypeName="Session2Model.ReadingRooms">
+              <MappingFragment StoreEntitySet="ReadingRooms">
+                <ScalarProperty Name="ReadingRoom" ColumnName="ReadingRoom" />
+                <ScalarProperty Name="RoomNumber" ColumnName="RoomNumber" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Capacity" ColumnName="Capacity" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

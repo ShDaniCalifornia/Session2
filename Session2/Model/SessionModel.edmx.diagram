@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="44c23a462cdd48599c283a1d4ab11a87" Name="Diagram1">
+        <EntityTypeShape EntityType="Session2Model.BookLoans" Width="1.5" PointX="5.25" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Session2Model.Books" Width="1.5" PointX="3" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Session2Model.BookTransfers" Width="1.5" PointX="5.25" PointY="9.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Session2Model.ReaderRegistrations" Width="1.5" PointX="5.25" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Session2Model.Readers" Width="1.5" PointX="3" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Session2Model.ReadingRooms" Width="1.5" PointX="0.75" PointY="2.75" IsExpanded="true" />
+        <AssociationConnector Association="Session2Model.FK_BookLoans_Books" ManuallyRouted="false" />
+        <AssociationConnector Association="Session2Model.FK_BookLoans_Readers" ManuallyRouted="false" />
+        <AssociationConnector Association="Session2Model.FK_BookTransfers_Books" ManuallyRouted="false" />
+        <AssociationConnector Association="Session2Model.FK_ReaderRegistrations_Readers" ManuallyRouted="false" />
+        <AssociationConnector Association="Session2Model.FK_Readers_ReadingRooms" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,44 @@
+﻿<Window x:Class="Session2.View.Windows.TicketChangeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Session2.View.Windows"
+        mc:Ignorable="d"
+        Title="TicketChangeWindow" Height="450" Width="500">
+    <Grid Margin="25">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="40"/>
+            <ColumnDefinition Width="380"/>
+            <ColumnDefinition Width="20"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Grid.Column="1" FontSize="20"
+                   Text="Старый номер читательского билета "/>
+        
+        <TextBox Name="OldTicketNumberTb" Grid.Row="2" Grid.Column="1" Text="{Binding TicketNumber}"/>
+        
+        <TextBlock Grid.Row="4" Grid.Column="1" FontSize="20"
+                   Text="Новый номер читательского билета"/>
+
+        <TextBox Name="NewTicketNumberTb" Grid.Row="6" Grid.Column="1" Text="{Binding TicketNumber}"/>
+
+        <Button Grid.Row="8" Grid.Column="1" Content="Сохранить" Name="SaveBtn" Click="SaveBtn_Click"/>
+        <Button Grid.Row="10" Grid.Column="1" Content="Закрыть" Name="CancelBtn" Click="CancelBtn_Click_1"/>
+    </Grid>
+</Window>

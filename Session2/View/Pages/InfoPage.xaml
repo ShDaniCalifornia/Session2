@@ -1,0 +1,78 @@
+﻿<Page x:Class="Session2.View.Pages.InfoPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Session2.View.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="750" d:DesignWidth="1600"
+      Title="Информация">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="400"/>
+            <ColumnDefinition Width="1200"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="530"/>
+                <ColumnDefinition Width="40"/>
+                <ColumnDefinition Width="530"/>
+                <ColumnDefinition Width="40"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="70"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="390"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="160"/>
+                <RowDefinition Height="30"/>
+            </Grid.RowDefinitions>
+
+            <TextBox Grid.Row="1" Grid.Column="1" Margin="20 10 20 10" Name="SearchTb"/>
+            <Button Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" Margin="10 10 400 10" Content="Поиск" Name="SearchBtn" Click="SearchBtn_Click"/>
+
+            <ListView Name="InfoLv" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="3" SelectionChanged="InfoLv_SelectionChanged" >
+                <!-- Переводим ListView в табличный вид-->
+                <ListView.View>
+                    <GridView>
+                        <!-- Создаем столбцы -->
+                        <GridViewColumn Header="Читатель" DisplayMemberBinding="{Binding Surname}"/>
+                        <GridViewColumn Header="Книга" DisplayMemberBinding="{Binding Book.Title}"/>
+                        <GridViewColumn Header="Шифт" DisplayMemberBinding="{Binding Book.Cipher}"/>
+                        <GridViewColumn Header="Дата выдачи" DisplayMemberBinding="{Binding Book.Loans.LoanDate, StringFormat=dd.MM.yyy}"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+
+            <TextBlock Grid.Row="4" Grid.Column="1" Text="Статистика:" FontWeight="ExtraBold"/>
+
+            <Grid Grid.Row="5" Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="160"/>
+                    <ColumnDefinition Width="160"/>
+                </Grid.ColumnDefinitions>
+                
+                <TextBlock Text="Всего читателей:"/>
+                <TextBlock Grid.Row="1" Text="Читателей младше 20 лет:"/>
+
+                <TextBlock Grid.Column="1" Name="CountOfReadersTbl"
+                           Text ="{Binding Count, StringFormat={}{0} readers found}"/>
+                <TextBlock Grid.Column="1" Grid.Row="1" Name="ReadersCountTbl"/>
+
+            </Grid>
+
+            <Button Grid.Row="5" Grid.Column="3" Margin="300 50 20 60" Content="Отчет" Name="ReportBtn" Click="ReportBtn_Click"/>
+        </Grid>
+    </Grid>
+</Page>
